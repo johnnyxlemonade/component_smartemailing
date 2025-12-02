@@ -2,8 +2,7 @@
 
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![PHP Version](https://img.shields.io/badge/php-%3E%3D8.1-blue)
-![Packagist Version](https://img.shields.io/packagist/v/lemonade/component_smartemailing)
-![Build Status](https://img.shields.io/github/actions/workflow/status/johnnyxlemonade/component_smartemailing/php-ci.yml?branch=master&label=build)
+![Packagist Version](https://img.shields.io/packagist/v/lemonade/component-smartemailing)
 
 **Lemonade SmartEmailing API Client** is a fully typed PHP 8.1+ wrapper for the SmartEmailing v3 REST API.  
 It provides high-level models, formatting helpers, strict typing, and a clean architecture that transforms raw API responses into structured domain objects.
