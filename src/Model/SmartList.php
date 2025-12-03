@@ -2,6 +2,21 @@
 
 namespace Lemonade\SmartEmailing\Model;
 
+/**
+ * Class SmartList
+ *
+ * Model reprezentující seznam kontaktů (list) ve SmartEmailing API.
+ * Obsahuje základní informace o seznamu, odesílateli, metadatech
+ * a poskytuje statickou konstrukci z API odpovědi.
+ *
+ * @package     Lemonade Framework
+ * @subpackage  SmartEmailing
+ * @category    Model
+ * @link        https://lemonadeframework.cz/
+ * @author      Honza Mudrak <honzamudrak@gmail.com>
+ * @license     MIT
+ * @since       1.0.0
+ */
 final class SmartList
 {
     public function __construct(

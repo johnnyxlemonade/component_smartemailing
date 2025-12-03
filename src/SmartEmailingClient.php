@@ -9,6 +9,21 @@ use Lemonade\SmartEmailing\Model\SmartContact;
 use Lemonade\SmartEmailing\Model\SmartContactCollection;
 use Lemonade\SmartEmailing\Model\SmartListMeta;
 
+/**
+ * Class SmartEmailingClient
+ *
+ * Vysokourovňový klient pro práci se SmartEmailing API.
+ * Zajišťuje ověřování přístupu, práci se seznamy, kontakty,
+ * přidávání a aktualizaci dat kontaktů a diagnostické funkce.
+ *
+ * @package     Lemonade Framework
+ * @subpackage  SmartEmailing
+ * @category    Client
+ * @link        https://lemonadeframework.cz/
+ * @author      Honza Mudrak <honzamudrak@gmail.com>
+ * @license     MIT
+ * @since       1.0.0
+ */
 final class SmartEmailingClient
 {
     public function __construct(
@@ -213,6 +228,22 @@ final class SmartEmailingClient
         } catch (\Throwable $e) {
             return SmartEmailingResponse::error($e->getMessage());
         }
+    }
+
+    public function debug(): array
+    {
+        $auth = $this->api->getAuth();
+
+        return [
+            'clientClass' => self::class,
+            'apiClass'    => $this->api::class,
+            'auth' => [
+                'hasUser'  => $auth->getUser() !== '',
+                'hasToken' => $auth->getToken() !== '',
+            ],
+            'ping' => $this->getPing()->toArray(),
+            'accountId' => $this->getAccountId()->toArray(),
+        ];
     }
 
     /**

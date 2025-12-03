@@ -2,6 +2,21 @@
 
 namespace Lemonade\SmartEmailing\Model;
 
+/**
+ * Class SmartContactMeta
+ *
+ * Metadata kontaktu poskytnutá SmartEmailing API.
+ * Obsahují UID, verzi záznamu, datum vytvoření,
+ * datum aktualizace a zdroj původu.
+ *
+ * @package     Lemonade Framework
+ * @subpackage  SmartEmailing
+ * @category    Model
+ * @link        https://lemonadeframework.cz/
+ * @author      Honza Mudrak <honzamudrak@gmail.com>
+ * @license     MIT
+ * @since       1.0.0
+ */
 final class SmartContactMeta
 {
     public function __construct(

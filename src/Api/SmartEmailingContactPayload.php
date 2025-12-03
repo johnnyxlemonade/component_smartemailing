@@ -3,12 +3,18 @@
 namespace Lemonade\SmartEmailing\Api;
 
 /**
- * SmartEmailingContactPayload
+ * Class SmartEmailingContactPayload
  *
- * Vytváří datovou strukturu požadovanou SmartEmailing API
- * při importu kontaktů (POST /import).
+ * Konstruktor payloadu pro import kontaktů do SmartEmailing API.
+ * Zajišťuje generování validní struktury pro endpoint /import.
  *
- * Runtime chování zachováno 1:1.
+ * @package     Lemonade Framework
+ * @subpackage  SmartEmailing
+ * @category    Payload
+ * @link        https://lemonadeframework.cz/
+ * @author      Honza Mudrak <honzamudrak@gmail.com>
+ * @license     MIT
+ * @since       1.0.0
  */
 final class SmartEmailingContactPayload
 {

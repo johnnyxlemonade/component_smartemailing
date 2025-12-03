@@ -3,8 +3,20 @@
 namespace Lemonade\SmartEmailing\Api;
 
 /**
- * SmartEmailingSchema
- * @link https://app.smartemailing.cz/docs/api/v3/index.html
+ * Class SmartEmailingSchema
+ *
+ * Definice konstant SmartEmailing API: endpointy, metody,
+ * základní URL, verze API a pomocné utility pro generování
+ * cest a filtrování schémat. Slouží jako centrální konfigurace
+ * pro komunikaci klienta i API wrapperu.
+ *
+ * @package     Lemonade Framework
+ * @subpackage  SmartEmailing
+ * @category    Schema
+ * @link        https://lemonadeframework.cz/
+ * @author      Honza Mudrak <honzamudrak@gmail.com>
+ * @license     MIT
+ * @since       1.0.0
  */
 final class SmartEmailingSchema
 {

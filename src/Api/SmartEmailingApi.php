@@ -3,9 +3,20 @@
 namespace Lemonade\SmartEmailing\Api;
 
 /**
- * SmartEmailingApi
+ * Class SmartEmailingApi
  *
- * Hlavní wrapper kolem HTTP klienta + formatteru.
+ * Hlavní API wrapper pro SmartEmailing.
+ * Odpovídá za komunikaci přes HTTP klienta, odesílání requestů
+ * a předzpracování dat pomocí formatteru. Poskytuje metody
+ * pro práci s kontakty, seznamy, diagnostikou a správou účtu.
+ *
+ * @package     Lemonade Framework
+ * @subpackage  SmartEmailing
+ * @category    Api
+ * @link        https://lemonadeframework.cz/
+ * @author      Honza Mudrak <honzamudrak@gmail.com>
+ * @license     MIT
+ * @since       1.0.0
  */
 final class SmartEmailingApi
 {

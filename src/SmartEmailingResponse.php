@@ -2,6 +2,20 @@
 
 namespace Lemonade\SmartEmailing;
 
+/**
+ * Class SmartEmailingResponse
+ *
+ * Reprezentuje standardizovanou odpověď SmartEmailing klienta.
+ * Obsahuje informaci o úspěchu/selhání, data a případnou chybovou zprávu.
+ *
+ * @package     Lemonade Framework
+ * @subpackage  SmartEmailing
+ * @category    Response
+ * @link        https://lemonadeframework.cz/
+ * @author      Honza Mudrak <honzamudrak@gmail.com>
+ * @license     MIT
+ * @since       1.0.0
+ */
 final class SmartEmailingResponse
 {
     public function __construct(
@@ -38,5 +52,17 @@ final class SmartEmailingResponse
     public function getMessage(): ?string
     {
         return $this->message;
+    }
+
+    /**
+     * Serializace pro debug/logy
+     */
+    public function toArray(): array
+    {
+        return [
+            'success' => $this->success,
+            'data'    => $this->data,
+            'message' => $this->message,
+        ];
     }
 }

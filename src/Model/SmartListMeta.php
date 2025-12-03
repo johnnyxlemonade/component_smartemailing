@@ -2,6 +2,22 @@
 
 namespace Lemonade\SmartEmailing\Model;
 
+/**
+ * Class SmartListMeta
+ *
+ * Metadata seznamu kontaktů (listu) získaná ze SmartEmailing API.
+ * Obsahují technické informace, veřejný název, kategorie,
+ * upozornění, ochranu, skrytí, segmentaci, počet kontaktů
+ * a doplňková data.
+ *
+ * @package     Lemonade Framework
+ * @subpackage  SmartEmailing
+ * @category    Model
+ * @link        https://lemonadeframework.cz/
+ * @author      Honza Mudrak <honzamudrak@gmail.com>
+ * @license     MIT
+ * @since       1.0.0
+ */
 final class SmartListMeta
 {
     public function __construct(

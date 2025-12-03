@@ -6,9 +6,19 @@ use function in_array;
 use function trim;
 
 /**
- * SmartEmailingFormatter
+ * Class SmartEmailingFormatter
  *
- * Převádí raw API odpovědi do jednotných struktur.
+ * Formátovací vrstva SmartEmailing integrace.
+ * Převádí raw API odpovědi do jednotných interních struktur,
+ * normalizuje kontakty, seznamy, metadata a diagnostické hodnoty.
+ *
+ * @package     Lemonade Framework
+ * @subpackage  SmartEmailing
+ * @category    Formatter
+ * @link        https://lemonadeframework.cz/
+ * @author      Honza Mudrak <honzamudrak@gmail.com>
+ * @license     MIT
+ * @since       1.0.0
  */
 final class SmartEmailingFormatter
 {

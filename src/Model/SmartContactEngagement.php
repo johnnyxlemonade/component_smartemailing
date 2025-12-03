@@ -2,6 +2,21 @@
 
 namespace Lemonade\SmartEmailing\Model;
 
+/**
+ * Class SmartContactEngagement
+ *
+ * Model reprezentující engagement metriky kontaktu
+ * získané ze SmartEmailing API (úroveň, skóre,
+ * datum výpočtu a počet dnů od posledního emailu).
+ *
+ * @package     Lemonade Framework
+ * @subpackage  SmartEmailing
+ * @category    Model
+ * @link        https://lemonadeframework.cz/
+ * @author      Honza Mudrak <honzamudrak@gmail.com>
+ * @license     MIT
+ * @since       1.0.0
+ */
 final class SmartContactEngagement
 {
     public function __construct(

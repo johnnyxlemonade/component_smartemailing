@@ -2,6 +2,22 @@
 
 namespace Lemonade\SmartEmailing\Model;
 
+/**
+ * Class SmartContact
+ *
+ * Reprezentace kontaktu načteného ze SmartEmailing API.
+ * Obsahuje základní identitu, metadata, engagement, metriky,
+ * seznamy a vlastní pole. Poskytuje jednotné objektové rozhraní
+ * pro práci s kontaktními daty.
+ *
+ * @package     Lemonade Framework
+ * @subpackage  SmartEmailing
+ * @category    Model
+ * @link        https://lemonadeframework.cz/
+ * @author      Honza Mudrak <honzamudrak@gmail.com>
+ * @license     MIT
+ * @since       1.0.0
+ */
 final class SmartContact
 {
     /** základní identita */

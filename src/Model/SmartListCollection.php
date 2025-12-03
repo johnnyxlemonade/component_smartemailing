@@ -2,6 +2,21 @@
 
 namespace Lemonade\SmartEmailing\Model;
 
+/**
+ * Class SmartListCollection
+ *
+ * Kolekce objektů SmartList s podporou iterace.
+ * Umožňuje vyhledávání seznamu dle ID a převod
+ * interní kolekce na pole.
+ *
+ * @package     Lemonade Framework
+ * @subpackage  SmartEmailing
+ * @category    Collection
+ * @link        https://lemonadeframework.cz/
+ * @author      Honza Mudrak <honzamudrak@gmail.com>
+ * @license     MIT
+ * @since       1.0.0
+ */
 final class SmartListCollection implements \IteratorAggregate
 {
     /** @var SmartList[] */

@@ -8,9 +8,19 @@ use Psr\Http\Message\ResponseInterface;
 use function json_decode;
 
 /**
- * SmartEmailingHttpClient
+ * Class SmartEmailingHttpClient
  *
- * Zajišťuje komunikaci se SmartEmailing API.
+ * HTTP klient pro komunikaci se SmartEmailing API.
+ * Zodpovídá za odesílání požadavků, autentizaci, zpracování
+ * úspěšných odpovědí i chybových stavů a převod JSON payloadů.
+ *
+ * @package     Lemonade Framework
+ * @subpackage  SmartEmailing
+ * @category    HttpClient
+ * @link        https://lemonadeframework.cz/
+ * @author      Honza Mudrak <honzamudrak@gmail.com>
+ * @license     MIT
+ * @since       1.0.0
  */
 final class SmartEmailingHttpClient
 {

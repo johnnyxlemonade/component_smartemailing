@@ -3,10 +3,19 @@
 namespace Lemonade\SmartEmailing\Api;
 
 /**
- * SmartEmailingException
+ * Class SmartEmailingException
  *
- * Specifická výjimka používaná v rámci SmartEmailing API vrstvy.
- * Runtime chování zachováno 1:1 s původní třídou ApiException.
+ * Specifická výjimka pro SmartEmailing API vrstvu.
+ * Slouží k odlišení chyb vzniklých při komunikaci se SmartEmailingem
+ * od ostatních aplikačních výjimek.
+ *
+ * @package     Lemonade Framework
+ * @subpackage  SmartEmailing
+ * @category    Exception
+ * @link        https://lemonadeframework.cz/
+ * @author      Honza Mudrak <honzamudrak@gmail.com>
+ * @license     MIT
+ * @since       1.0.0
  */
 final class SmartEmailingException extends \Exception
 {

@@ -3,11 +3,18 @@
 namespace Lemonade\SmartEmailing\Api;
 
 /**
- * SmartEmailingAuth
+ * Class SmartEmailingAuth
  *
- * Uchovává přihlašovací údaje (user + token) pro přístup
- * k SmartEmailing API. Immutable objekt — hodnoty nelze měnit
- * po vytvoření.
+ * Datový objekt uchovávající přihlašovací údaje pro SmartEmailing API.
+ * Obsahuje uživatelské jméno a token ve formě immutable hodnot.
+ *
+ * @package     Lemonade Framework
+ * @subpackage  SmartEmailing
+ * @category    Auth
+ * @link        https://lemonadeframework.cz/
+ * @author      Honza Mudrak <honzamudrak@gmail.com>
+ * @license     MIT
+ * @since       1.0.0
  */
 final class SmartEmailingAuth
 {
