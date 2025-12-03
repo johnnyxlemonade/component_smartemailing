@@ -39,8 +39,8 @@ use Lemonade\SmartEmailing\Api\SmartEmailingApi;
 use Lemonade\SmartEmailing\SmartEmailingClient;
 
 $api = new SmartEmailingApi(
-    username: 'YOUR_SMARTEMAILING_LOGIN',
-    apiKey:   'YOUR_SMARTEMAILING_API_KEY'
+    user: 'YOUR_SMARTEMAILING_LOGIN',
+    token: 'YOUR_SMARTEMAILING_TOKEN'
 );
 
 $client = new SmartEmailingClient($api);
