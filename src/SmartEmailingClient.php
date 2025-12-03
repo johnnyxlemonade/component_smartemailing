@@ -138,51 +138,28 @@ final class SmartEmailingClient
         }
     }
 
-    /**
-     * addOrUpdate:
-     * 1) vytvoří kontakt nebo ho přidá do listu
-     * 2) pokud má $fields, provede následný update (PUT)
-     */
-    public function addOrUpdate(string $email, int|string $listId, array $fields = []): SmartEmailingResponse
+    public function importContact(string $email, int|string $listId, array $fields = []): SmartEmailingResponse
     {
         try {
-            // 1) vytvořit/přidat do listu
-            $created = $this->api->createContact($listId, [$email]);
+            // 1) import (create/update + assign to list)
+            $result = $this->api->importContact($email, $listId, $fields);
 
-            // 2) aktualizace kontaktu
-            if ($fields !== []) {
-                $payload = $this->filterAllowedFields($fields);
-
-                foreach ($created as $contactId => $_email) {
-                    $result = $this->api->updateContactFields($contactId, $payload);
-
-                    if (($result['status'] ?? '') !== 'ok') {
-                        return SmartEmailingResponse::error(
-                            $result['message'] ?? 'Nepodařilo se aktualizovat kontakt.'
-                        );
-                    }
-                }
+            if (!isset($result['contacts_map'][0]['contact_id'])) {
+                return SmartEmailingResponse::error('SmartEmailing nevrátil contact_id.');
             }
 
-            // vrátíme kolekci SmartContactCollection
-            if ($created === []) {
-                return SmartEmailingResponse::ok(null);
-            }
+            $contactId = (int) $result['contacts_map'][0]['contact_id'];
 
-            $firstId = array_key_first($created);
-
-            if ($firstId === null) {
-                return SmartEmailingResponse::ok(null);
-            }
-
-            $detail = $this->api->getContactDetail($firstId);
+            // 2) load full detail
+            $detail = $this->api->getContactDetail($contactId);
             $smart  = new SmartContactCollection($detail);
 
-            return SmartEmailingResponse::ok($smart);
-
-        } catch (\Throwable $e) {
+            return SmartEmailingResponse::ok($smart->first());
+        }
+        catch (\Throwable $e) {
             return SmartEmailingResponse::error($e->getMessage());
         }
+
     }
 
     /**
@@ -210,26 +187,29 @@ final class SmartEmailingClient
         try {
             $payload = $this->filterAllowedFields($fields);
 
-            $result = $this->api->updateContactFields($contactId, $payload);
+            // API import v3 – vrací status=created a contacts_map
+            $result = $this->api->updateContact((int)$contactId, $payload);
 
-            if (($result['status'] ?? '') !== 'ok') {
+            if (!isset($result['contacts_map'][0]['contact_id'])) {
                 return SmartEmailingResponse::error(
-                    $result['message'] ?? 'Nepodařilo se aktualizovat kontakt.'
+                    $result['message'] ?? 'SmartEmailing v3 nevrátil contact_id při aktualizaci.'
                 );
             }
 
-            // vrátíme SmartContact
+            // načteme detail (objektově)
             $detail = $this->api->getContactDetail($contactId);
-            $smart = new SmartContactCollection($detail);
+            $smart  = new SmartContactCollection($detail);
 
-            // jelikož jde o detail, kolekce obsahuje 1 kontakt
             return SmartEmailingResponse::ok($smart->first());
-
-        } catch (\Throwable $e) {
+        }
+        catch (\Throwable $e) {
             return SmartEmailingResponse::error($e->getMessage());
         }
     }
 
+    /**
+     * Debug info
+     */
     public function debug(): array
     {
         $auth = $this->api->getAuth();
@@ -251,11 +231,23 @@ final class SmartEmailingClient
      */
     private function filterAllowedFields(array $fields): array
     {
-        $allowed = ['name', 'surname', 'emailaddress', 'language'];
+        $allowed = ['name', 'surname', 'language'];
 
-        return array_intersect_key(
-            $fields,
-            array_flip($allowed)
-        );
+        $result = [];
+
+        foreach ($fields as $key => $value) {
+            if (!in_array($key, $allowed, true)) {
+                continue;
+            }
+
+            if ($value === null || $value === '') {
+                continue;
+            }
+
+            $result[$key] = $value;
+        }
+
+        return $result;
     }
+
 }

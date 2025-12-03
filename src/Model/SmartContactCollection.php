@@ -27,7 +27,7 @@ final class SmartContactCollection implements \IteratorAggregate
     {
         foreach ($rawContacts as $item) {
             if (is_array($item)) {
-                $contact = SmartContact::fromArray($item);
+                $contact = SmartContact::fromApiResponse($item);
 
                 // ignorujeme prázdné objekty bez ID
                 if ($contact->getId() !== '') {

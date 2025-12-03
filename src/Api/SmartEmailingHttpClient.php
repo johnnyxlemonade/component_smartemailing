@@ -8,19 +8,9 @@ use Psr\Http\Message\ResponseInterface;
 use function json_decode;
 
 /**
- * Class SmartEmailingHttpClient
+ * SmartEmailingHttpClient
  *
- * HTTP klient pro komunikaci se SmartEmailing API.
- * Zodpovídá za odesílání požadavků, autentizaci, zpracování
- * úspěšných odpovědí i chybových stavů a převod JSON payloadů.
- *
- * @package     Lemonade Framework
- * @subpackage  SmartEmailing
- * @category    HttpClient
- * @link        https://lemonadeframework.cz/
- * @author      Honza Mudrak <honzamudrak@gmail.com>
- * @license     MIT
- * @since       1.0.0
+ * Zajišťuje komunikaci se SmartEmailing API.
  */
 final class SmartEmailingHttpClient
 {
@@ -74,6 +64,7 @@ final class SmartEmailingHttpClient
             return $this->handleSuccess($response);
 
         } catch (ClientException $e) {
+
             return $this->handleClientError($e);
 
         } catch (\Exception $e) {
@@ -89,8 +80,7 @@ final class SmartEmailingHttpClient
     {
         $status = $response->getStatusCode();
 
-        // Původní chování: 200 / 201 / 204 = success
-        if ($status === 200 || $status === 201 || $status === 204) {
+        if ($status === 200 || $status === 201 || $status === 204 || $status === 202) {
             return $this->parseSuccessResponse($response);
         }
 
@@ -104,15 +94,12 @@ final class SmartEmailingHttpClient
     {
         $body = $response->getBody()->getContents();
 
-        if ($body !== '') {
-            $decoded = json_decode($body, true);
-            if (is_array($decoded)) {
-                return $decoded;
-            }
+        if ($body === '' || trim($body) === '') {
+            return ['status' => 'ok'];
         }
 
-        // původní fallback: prázdný response = status ok
-        return ['status' => 'ok'];
+        $decoded = json_decode($body, true);
+        return is_array($decoded) ? $decoded : ['status' => 'ok'];
     }
 
     private function handleClientError(ClientException $e): array

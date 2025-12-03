@@ -74,7 +74,7 @@ final class SmartContact
             uid:         $data['uid'] ?? null,
             version:     isset($data['version']) ? (int)$data['version'] : null,
             createdAt:   $data['created_at'] ?? null,
-            updatedAt:   $data['last_updated_at'] ?? null,
+            updatedAt:   $data['updated_at'] ?? null,
             origin:      $data['origin'] ?? null
         );
 
@@ -116,13 +116,13 @@ final class SmartContact
         return new self(
             id:         (string)($data['id'] ?? ''),
             guid:       (string)($data['guid'] ?? ''),
-            email:      (string)($data['contactEmail'] ?? ''),
-            name:       (string)($data['contactName'] ?? ''),
-            surname:    (string)($data['contactSurname'] ?? ''),
-            created:    (string)($data['contactCreated'] ?? ''),
-            language:   (string)($data['contactLang'] ?? 'cs_CZ'),
-            confirmed:  (bool)($data['contactConfirmed'] ?? false),
-            listCount:  (int)($data['contactListItems'] ?? 0),
+            email:      (string)($data['emailaddress'] ?? ''),
+            name:       (string)($data['name'] ?? ''),
+            surname:    (string)($data['surname'] ?? ''),
+            created:    (string)($data['created_at'] ?? ''),
+            language:   (string)($data['language'] ?? 'cs_CZ'),
+            confirmed:  (bool)($data['confirmed'] ?? false),
+            listCount:  (int)($data['list_count'] ?? 0),
 
             meta:         $meta,
             engagement:   $engagement,
@@ -131,4 +131,5 @@ final class SmartContact
             customFields: ($data['fields'] ?? [])
         );
     }
+
 }

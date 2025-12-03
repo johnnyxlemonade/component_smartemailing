@@ -132,42 +132,88 @@ final class SmartEmailingApi
         return $this->formatter->deleteContact($call);
     }
 
-    public function updateContactFields(int|string $contactId, array $payload): array
+    public function addToList(int|string $contactId, int|string $listId): array
     {
         return $this->http->sendRequest(
-            SmartEmailingSchema::METHOD_PUT,
-            SmartEmailingSchema::ACTION_CONTACTS . '/' . (string)$contactId,
+            SmartEmailingSchema::METHOD_POST,
+            SmartEmailingSchema::ACTION_CONTACTLISTS,
+            [
+                'contact_id'     => (int) $contactId,
+                'contactlist_id' => (int) $listId,
+                'status'         => 'confirmed',
+            ]
+        );
+    }
+
+    /**
+     * Import kontakt(ů)
+     */
+    public function importContact(string $email, string|int $listId, array $fields = []): array
+    {
+        $payload = [
+            'data' => [
+                [
+                    'emailaddress' => $email,
+                    'name'         => $fields['name']    ?? null,
+                    'surname'      => $fields['surname'] ?? null,
+                    'language'     => $fields['language'] ?? 'cs_CZ',
+                    'contactlists' => [
+                        [
+                            'id'     => (int)$listId,
+                            'status' => 'confirmed'
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        return $this->http->sendRequest(
+            SmartEmailingSchema::METHOD_POST,
+            SmartEmailingSchema::ACTION_IMPORT,
             $payload
         );
     }
 
     /**
-     * createContact – 1:1 zachování původního chování
+     * Aktualizace kontaktu
      */
-    public function createContact(string|int $listId, array $emails = []): array
+    public function updateContact(int $contactId, array $fields): array
     {
-        $payload = [];
+        // načteme detail → asociativní pole: [id => data]
+        $detail = $this->getContactDetail($contactId);
 
-        if ($emails !== []) {
-            $data = [];
-            foreach ($emails as $email) {
-                $data[] = SmartEmailingContactPayload::create(
-                    (string)$email,
-                    (string)$listId
-                );
-            }
+        // reset() vrátí první hodnotu pole
+        $contact = reset($detail);
 
-            $payload = ['data' => $data];
+        if (!is_array($contact)) {
+            throw new \RuntimeException("Kontakt {$contactId} se nepodařilo načíst.");
         }
 
-        $call = $this->http->sendRequest(
+        $email = $contact['contactEmail'] ?? null;
+
+        if (!$email) {
+            throw new \RuntimeException('Kontakt nemá email – nelze aktualizovat.');
+        }
+
+        // Vytvořit payload podle import API
+        $payload = [
+            'data' => [
+                [
+                    'emailaddress' => $email,
+                    'name'         => $fields['name']    ?? null,
+                    'surname'      => $fields['surname'] ?? null,
+                    'language'     => $fields['language'] ?? null,
+                ]
+            ]
+        ];
+
+        return $this->http->sendRequest(
             SmartEmailingSchema::METHOD_POST,
             SmartEmailingSchema::ACTION_IMPORT,
             $payload
         );
-
-        return $this->formatter->createContact($call['contacts_map'] ?? []);
     }
+
 
     /**
      * Pro SmartEmailingClient – poskytuje přístup k HTTP klientovi.
