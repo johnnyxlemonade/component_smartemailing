@@ -208,6 +208,41 @@ final class SmartEmailingClient
     }
 
     /**
+     * Přidá kontaktu tagy (create/update kontaktu přes v3 /contacts).
+     * SmartEmailing vykoná "upsert" – pokud kontakt existuje, aktualizuje se,
+     * pokud neexistuje, vytvoří se.
+     */
+    public function addTagsToContact(string $email, array $tags): SmartEmailingResponse
+    {
+        try {
+            if ($email === '') {
+                return SmartEmailingResponse::error('Email nesmí být prázdný.');
+            }
+
+            if ($tags === []) {
+                return SmartEmailingResponse::error('Seznam tagů je prázdný.');
+            }
+
+            $result = $this->api->upsertTags($email, $tags);
+
+            // API v3 vrací: ["data" => [ ["id" => X, ...] ]]
+            $contactId = $result['data'][0]['id'] ?? null;
+
+            if ($contactId === null) {
+                return SmartEmailingResponse::error('SmartEmailing nevrátil contact_id.');
+            }
+
+            return SmartEmailingResponse::ok([
+                'contactId' => $contactId,
+                'tags'      => $tags
+            ]);
+
+        } catch (\Throwable $e) {
+            return SmartEmailingResponse::error($e->getMessage());
+        }
+    }
+
+    /**
      * Debug info
      */
     public function debug(): array

@@ -214,6 +214,43 @@ final class SmartEmailingApi
         );
     }
 
+    /**
+     * Upsert kontaktu – přidání tagů.
+     * SmartEmailing vytvoří nový kontakt nebo aktualizuje existující.
+     *
+     * @param array<int,string> $tags
+     * @return array{
+     *     data?: array<int, array<string, mixed>>,
+     *     message?: string
+     * }
+     */
+    public function upsertTags(string $email, array $tags): array
+    {
+        if ($email === '') {
+            throw new \InvalidArgumentException('Email nesmí být prázdný.');
+        }
+
+        if ($tags === []) {
+            throw new \InvalidArgumentException('Tagy nesmí být prázdné.');
+        }
+
+        // SmartEmailing tag payload: [ ["name" => "tag1"], ... ]
+        $tagPayload = array_map(
+            fn($t) => ['name' => (string)$t],
+            array_values(array_unique($tags))
+        );
+
+        $payload = [
+            'emailaddress' => $email,
+            'tags'         => $tagPayload
+        ];
+
+        return $this->http->sendRequest(
+            SmartEmailingSchema::METHOD_POST,
+            SmartEmailingSchema::ACTION_CONTACTS,
+            $payload
+        );
+    }
 
     /**
      * Pro SmartEmailingClient – poskytuje přístup k HTTP klientovi.
